@@ -119,7 +119,7 @@ function Item({ onDeleteItems, item, onTogglePackedItems }) {
 }
 
 function Stats({ items }) {
-  if (items.length === 0) {
+  if (!items.length) {
     return (
       <footer className="stats">
         <em> Start adding items to your packing list!👚👗👙</em>
