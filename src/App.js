@@ -7,7 +7,7 @@ const initialItems = [
 ];
 
 export default function App() {
-  const [items, setItems] = useState(initialItems);
+  const [items, setItems] = useState([]);
 
   function handleAddItems(item) {
     setItems((items) => [...items, item]);
@@ -34,7 +34,7 @@ export default function App() {
         onTogglePackedItems={handleTogglePackedItem}
         items={items}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -118,10 +118,17 @@ function Item({ onDeleteItems, item, onTogglePackedItems }) {
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  const numItems = items.length;
+  const numPacked = items.filter((item) => item.packed).length;
+  const percentage = Math.round((numPacked / numItems) * 100);
+
   return (
     <footer className="stats">
-      <em>🧳 You have X items in your list, and you already packed X (X%)</em>
+      <em>
+        🧳 You have {numItems} items in your list, and you already packed{" "}
+        {numPacked} ({percentage}%).
+      </em>
     </footer>
   );
 }
