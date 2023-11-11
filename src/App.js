@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-const initialItems = [
-  { id: 1, description: "Passports", quantity: 2, packed: false },
-  { id: 2, description: "Socks", quantity: 12, packed: true },
-  { id: 3, description: "Pants", quantity: 10, packed: false },
-];
+// const initialItems = [
+//   { id: 1, description: "Passports", quantity: 2, packed: false },
+//   { id: 2, description: "Socks", quantity: 12, packed: true },
+//   { id: 3, description: "Pants", quantity: 10, packed: false },
+// ];
 
 export default function App() {
   const [items, setItems] = useState([]);
@@ -25,6 +25,14 @@ export default function App() {
     );
   }
 
+  function handleClearButton() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this items?"
+    );
+
+    if (confirmed) setItems([]);
+  }
+
   return (
     <div className="app">
       <Logo />
@@ -32,6 +40,7 @@ export default function App() {
       <PackingList
         onDeleteItems={handleDeleteItems}
         onTogglePackedItems={handleTogglePackedItem}
+        onClearButton={handleClearButton}
         items={items}
       />
       <Stats items={items} />
@@ -87,7 +96,12 @@ function Form({ onAddItems }) {
     </form>
   );
 }
-function PackingList({ items, onDeleteItems, onTogglePackedItems }) {
+function PackingList({
+  items,
+  onDeleteItems,
+  onTogglePackedItems,
+  onClearButton,
+}) {
   const [sortBy, setSortBy] = useState("input");
 
   let sortedItems;
@@ -120,6 +134,7 @@ function PackingList({ items, onDeleteItems, onTogglePackedItems }) {
           <option value="description">Sort by description</option>
           <option value="packed">Sort by packed status</option>
         </select>
+        <button onClick={onClearButton}>Clear all</button>
       </div>
     </div>
   );
